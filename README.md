@@ -36,3 +36,5 @@ Feel free to reach out to with any questions or for clarification.
 - MVC JS architecture
 
 ## Dev notes
+- create HTML elements in app.js
+- 
