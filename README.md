@@ -36,5 +36,10 @@ Feel free to reach out to with any questions or for clarification.
 - MVC JS architecture
 
 ## Dev notes
-- create HTML elements in app.js
-- 
+- first, I created the HTML elements in app.js using for loops for the sake of legible code
+- then I created the forms that corresponded to each of the buttons on the Navigation bar
+- I noticed that Add/Update had 3 form fields while Verify/Delete had 1 form field, so I grouped them according to that
+- I then handled the logic of the functions, starting with Add Employee & Verify Employee
+- Next I connected the logic of the functions to the event handler within the form input
+- I implemented a MVC logic that utilizes app.js to update the Model first then updating the DOM View after
+- I then styled the components to fit a dark-mode aesthetic with LFL branding & color accents

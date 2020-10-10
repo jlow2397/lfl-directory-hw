@@ -1,49 +1,180 @@
 /* Your work here */
 
+body {
+  background-color: #0f0f0f;
+}
+
 .employeeList {
-  /* margin-left: -120px; */
+  margin-left: 20px;
+  padding: 20px;
   margin-top: 80px;
+  transition: all .3s ease-in;
+
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+
+  height: 80vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.employeeList::-webkit-scrollbar {
+  width: 4px;
+  background: transparent;
+}
+
+.employeeList::-webkit-scrollbar-thumb {
+  background: #00d6e6;
+  border-radius: 4px;
 }
 
 .employeeItem {
   font-size: 16px;
+  color: white;
   margin-bottom: 40px;
+  padding: 12px 40px;
+  width: 40vw;
 
-  padding: 12px 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
-  width: 60vw;
-
-  background-color: #fafafa;
+  background-color: #242424;
   border-radius: 20px;
+
+  transition: all .1s ease-in;
+}
+
+.employeeItem:hover {
+  margin-left: -8px;
+}
+
+h3 {
+  font-size: 32px;
 }
 
 .sideNav {
-  width: 120px;
+  width: 160px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
-  padding: 80px 12px;
-  margin-right: 20px;
+  z-index: 1;
+
+  height: 100vh;
+
+  padding: 80px 12px 0 24px;
+  margin: -20px 20px -20px -20px;
+
+  border-right-style: solid;
+  border-right-width: 4px;
+  border-right-color: #00d6e6;
+
+  background-color: black;
+  /* background: rgb(34,193,195);
+  background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(29,108,86,1) 63%, rgba(85,35,96,1) 100%); */
 }
 
 form {
-  width: 120px;
+  min-width: 320px;
   display: flex;
   flex-direction: column;
 
-  padding: 80px 12px;
+  padding: 100px 20px;
+  animation: load .6s ease-in-out;
+}
+
+@keyframes load {
+  0% { opacity: 0; margin-left: -320px; };
+  80% { opacity: .1; margin-left: -20px; };
+  100% { opacity: 1; margin-left:0px; }
+}
+
+h1 {
+  color: #F0F0F0;
+  font-size: 40px;
+}
+
+label {
+  color: #E0E0E0;
+  font-size: 12px;
+  margin-bottom: -16px;
+}
+
+input {
+  /* width: 40vw; */
+  height: 40px;
+  padding-left: 8px;
+  margin: 20px 0px;
+  border-radius: 12px;
+  border-style: none;
+  background-color: #242424;
+
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.submit{
+  /* width: 40vw; */
+  background-color: #00d6e6;
+  color: black;
+  font-weight: 700;
+
+  transition: all .3s ease-in;
 }
 
 .sideNav button {
-  width: 60px;
-  margin: 20px 12px;
+  width: 100%;
+  margin: 12px 8px;
+  padding: 12px 0;
+  border-radius: 12px;
+  background-color: black;
+  border-style: none;
+  color: #F0F0F0;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #363636;
+}
+
+.sideNav .active {
+  background-color: #363636;
 }
 
 .hidden {
   visibility: hidden;
+  opacity: 0;
+  margin-right: -320px;
+
+  transition: all .3s ease-in;
 }
 
 body {
   display: flex;
   flex-direction: row;
+}
+
+/* mobile styling */
+@media (max-width: 600px) {
+  .employeeItem {
+    flex-direction: column;
+  }
+
+  form {
+    max-width: 200px;
+    min-width: 160px;
+  }
+
+  .sideNav {
+    width: 60px;
+  }
+
+  .employeeList {
+    margin-left: -12px;
+  }
 }

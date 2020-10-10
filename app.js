@@ -10,6 +10,12 @@ document.getElementsByTagName('HEAD')[0].appendChild(link);
 // CREATE SIDE NAV START
 var sideNode = document.createElement("div");
 
+// create logo
+var logo = document.createElement("img");
+logo.src = 'images/lfl.png';
+logo.width = 80;
+sideNode.appendChild(logo);
+
 var buttons = ['Add','Verify','Update','Delete'];
 
 var button = document.createElement("button");
@@ -35,6 +41,13 @@ $("div").addClass('sideNav');
 // EMPLOYEE LIST START
 var employeeNode = document.createElement("div");
 
+// create title
+var node = document.createElement("h1");
+var nameNode = document.createTextNode('Employees:');
+node.appendChild(nameNode);
+employeeNode.appendChild(node);
+
+// add each employee in the model as a DOM element
 for (let i = 0; i < employeeList.length; i++) {
   var employee = addEmployee(employeeList[i]);
   employeeNode.appendChild(employee);
@@ -45,16 +58,29 @@ document.body.appendChild(employeeNode);
 
 // VIEW FUNCTIONS START
 function view () {
-  $('div.employeeItem').removeClass('hidden');
+  $('div.employeeList').removeClass('hidden');
   // $('form.addForm').addClass('hidden');
   var forms = document.querySelectorAll('form');
   if (forms[0] != undefined) {
     document.body.removeChild(forms[0]);
   }
+  toggleActive('View');
+}
+
+function toggleActive(button) {
+  var buttons = document.querySelectorAll('button');
+  for (let i = 0; i < buttons.length; i++) {
+    if (buttons[i].innerHTML == button) {
+      buttons[i].classList.add('active');
+    }
+    else {
+      buttons[i].classList.remove('active');
+    }
+  }
 }
 
 function viewForm (options) {
-  $('div.employeeItem').addClass('hidden');
+  $('div.employeeList').addClass('hidden');
   var toAdd, targetClass;
 
   switch (options) {
@@ -98,12 +124,20 @@ function viewForm (options) {
         break;
     }
   }
+
+  toggleActive(options);
 }
 
 function addShortForm (type) {
   var className = (type == 'Verify') ? 'verifyForm' : 'deleteForm';
   // add form
   var verifyForm = document.createElement("form");
+
+  // create title
+  var node = document.createElement("h1");
+  var nameNode = document.createTextNode(type+ ' Employee ');
+  node.appendChild(nameNode);
+  verifyForm.appendChild(node);
 
   var verifyName = document.createElement("input");
   verifyName.id = "verifyName";
@@ -115,6 +149,7 @@ function addShortForm (type) {
 
   var sub = document.createElement("input");
   sub.setAttribute("type", "submit");
+  sub.classList.add('submit');
   verifyForm.appendChild(sub);
 
   verifyForm.onsubmit = function(e) {
@@ -140,14 +175,6 @@ function addShortForm (type) {
     view();
   };
 
-  // var button = document.createElement("button");
-  // button.innerHTML = type + " Employee";
-  // button.addEventListener ("click", function(e) {
-  //   e.preventDefault();
-  //   alert(verifyEmployee(verifyName.value));
-  // });
-  // verifyForm.appendChild(button);
-
   verifyForm.classList.add(className);
 
   document.body.insertBefore(verifyForm, employeeNode);
@@ -158,6 +185,13 @@ function addLongForm (type) {
   // add form
   var addForm = document.createElement("form");
 
+  // create title
+  var node = document.createElement("h1");
+  var nameNode = document.createTextNode(type+ ' Employee ');
+  node.appendChild(nameNode);
+  addForm.appendChild(node);
+
+  // name input field
   var addName = document.createElement("input");
   addName.id = "addName";
   var label = document.createElement("label");
@@ -166,6 +200,7 @@ function addLongForm (type) {
   addForm.appendChild(label);
   addForm.appendChild(addName);
 
+  // office input field
   var addNumber = document.createElement("input");
   addNumber.id = "addNumber";
   var label = document.createElement("label");
@@ -174,6 +209,7 @@ function addLongForm (type) {
   addForm.appendChild(label);
   addForm.appendChild(addNumber);
 
+  // phone input field
   var addPhone = document.createElement("input");
   addPhone.id = "addPhone";
   var label = document.createElement("label");
@@ -184,6 +220,7 @@ function addLongForm (type) {
 
   var sub = document.createElement("input");
   sub.setAttribute("type", "submit");
+  sub.classList.add('submit');
   addForm.appendChild(sub);
 
   addForm.onsubmit = function(e) {
@@ -200,12 +237,12 @@ function addLongForm (type) {
 
       alert(alertText);
     }
-
+    // navigate back to view once the employee was added/updated
     view();
   };
 
+  // add the form to the DOM
   addForm.classList.add(className);
-
   document.body.insertBefore(addForm, employeeNode);
 }
 // VIEW FUNCTIONS END
@@ -218,6 +255,7 @@ function addNewEmployee(name, officeNum, phoneNum) {
     phoneNum
   }
 
+  // controller updates model
   employeeList.push(employee);
 
   console.log('Employee Added!');
@@ -228,27 +266,33 @@ function addNewEmployee(name, officeNum, phoneNum) {
   // console.log(list);
   list[0].appendChild(employeeDOM);
 
-  alert('Employee Added to DOM!');
+  // alert('Employee Added to DOM!');
   view();
 }
 
+// controller updates view in this function
 function addEmployee(employee) {
   var divNode = document.createElement("div");
 
-  var node = document.createElement("p");
-  var nameNode = document.createTextNode('Name: ' + employee.name );
+  // create a p element for each field in the employee
+  var node = document.createElement("h3");
+  var nameNode = document.createTextNode(employee.name );
   node.appendChild(nameNode);
   divNode.appendChild(node);
+
+  var innerDivNode = document.createElement("div");
 
   var node = document.createElement("p");
   var officeNode = document.createTextNode('Office: ' + employee.officeNum);
   node.appendChild(officeNode);
-  divNode.appendChild(node);
+  innerDivNode.appendChild(node);
 
   var node = document.createElement("p");
   var phoneNode = document.createTextNode('Phone: ' + employee.phoneNum);
   node.appendChild(phoneNode);
-  divNode.appendChild(node);
+  innerDivNode.appendChild(node);
+
+  divNode.appendChild(innerDivNode);
   divNode.classList.add('employeeItem');
 
   return divNode;
@@ -261,6 +305,7 @@ function verifyEmployee(name) {
   for (let i = 0; i < employeeList.length; i++) {
     // if there is a match
     if (employeeList[i].name == name) {
+      // return an integer
       return i;
     }
   }
@@ -275,25 +320,28 @@ function updateEmployee(name, officeNum, phoneNum) {
   // if the employee exists
   var exists = verifyEmployee(name);
   if (exists !== false) {
-    // update array
+    // controller updates model
+    // update array with new values for employee object
     employeeList[exists].officeNum = officeNum;
     employeeList[exists].phoneNum = phoneNum;
 
-    // update HTML
+    // controller update HTML view
     var list = document.querySelectorAll("div.employeeItem");
-    console.log(list);
+    // console.log(list);
     var oldEmployee = list[exists];
-    console.log(oldEmployee);
+    // console.log(oldEmployee);
     var newEmployee = addEmployee({name,officeNum,phoneNum});
     newEmployee.classList.add('hidden');
-    console.log(newEmployee);
+    // console.log(newEmployee);
 
+    // add new employee then remove the old one while preserving placement
     employeeNode.insertBefore(newEmployee, oldEmployee);
     employeeNode.removeChild(oldEmployee);
 
     return true;
   }
   else {
+    // employee does not exist
     return false;
   }
 }
@@ -305,13 +353,14 @@ function deleteEmployee(name) {
   var exists = verifyEmployee(name);
   if (exists !== false) {
     // update array
-    employeeList.filter(employee => employee.name != name);
+    employeeList.splice(exists,1);
+    console.log(employeeList);
 
     // update HTML
     var list = document.querySelectorAll("div.employeeItem");
-    console.log(list);
+    // console.log(list);
     var oldEmployee = list[exists];
-    console.log(oldEmployee);
+    // console.log(oldEmployee);
 
     employeeNode.removeChild(oldEmployee);
 
@@ -321,3 +370,7 @@ function deleteEmployee(name) {
     return false;
   }
 }
+// DELETE END
+
+// initialize the view with the employee list
+view();
